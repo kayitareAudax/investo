@@ -1,23 +1,19 @@
 package com.example.investo;
 
-import com.example.investo.model.Company;
-import com.example.investo.service.CompanyService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan(basePackages = {"com.example.investo.model"})
-@ComponentScan(basePackages={"com.example.investo.repository","com.example.investo.service","com.example.investo.controller"})
+@ComponentScan(basePackages = {"com.example.investo.repository", "com.example.investo.service", "com.example.investo.controller"})
 @EnableJpaRepositories(basePackages = {"com.example.investo.repository"})
 public class InvestoApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(InvestoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(InvestoApplication.class, args);
+    }
 //	@Bean
 //	CommandLineRunner run(CompanyService companyService){
 //		return args ->{

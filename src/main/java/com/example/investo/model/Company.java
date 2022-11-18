@@ -1,9 +1,5 @@
 package com.example.investo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,14 +15,23 @@ public class Company {
     private long myAmount;
     private long myPercentage;
     private int companyTotalFunds;
+
     public Company() {
     }
 
-    public Company(String name, long shareValue, int myShares,int companyTotalFunds) {
+    public Company(String name, long shareValue, int myShares, int companyTotalFunds) {
         this.name = name;
         this.shareValue = shareValue;
         this.myShares = myShares;
-        this.companyTotalFunds=companyTotalFunds;
+        this.companyTotalFunds = companyTotalFunds;
+    }
+
+    public Company(long id, String name, long shareValue, int myShares, int companyTotalFunds) {
+        this.id = id;
+        this.name = name;
+        this.shareValue = shareValue;
+        this.myShares = myShares;
+        this.companyTotalFunds = companyTotalFunds;
     }
 
     public int getCompanyTotalFunds() {
@@ -38,7 +43,7 @@ public class Company {
     }
 
     public long getMyPercentage() {
-        return shareValue*myShares*100/companyTotalFunds;
+        return shareValue * myShares * 100 / companyTotalFunds;
     }
 
     public void setMyPercentage(long myPercentage) {
@@ -78,10 +83,10 @@ public class Company {
     }
 
     public long getMyAmount() {
-        return myShares*shareValue;
+        return myShares * shareValue;
     }
 
     public void setMyAmount(long myAmount) {
-        this.myAmount=myAmount;
+        this.myAmount = myAmount;
     }
 }
