@@ -3,6 +3,9 @@ package com.example.investo.controller;
 import com.example.investo.model.Company;
 import com.example.investo.service.CompanyService;
 import com.example.investo.service.CompanyServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.Test;
 import org.junit.experimental.categories.Categories;
@@ -31,12 +34,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@RunWith(SpringRunner.class)
-@SpringBootTest
 @RunWith(SpringRunner.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 //@ContextConfiguration({"classpath*:spring/applicationContext.xml"})
 public class CompanyControllerTest {
@@ -73,16 +78,21 @@ public class CompanyControllerTest {
     }
     @Test
     public void create_201() throws Exception {
-        Company company=new Company(12, "Bookinga", 3000, 50, 15000);
+        Company company=new Company();
+        company.setId(1);
+        company.setName("Bookinga");
+        company.setCompanyTotalFunds(15000);
+        company.setMyShares(50);
+        company.setShareValue(3000);
         ResponseEntity.status(HttpStatus.CREATED).body(company);
         ResponseEntity<Company> response= ResponseEntity.status(HttpStatus.CREATED).body(company);
         when(companyServiceMock.saveCompany(company)).thenReturn(response);
-        MockHttpServletRequestBuilder request=MockMvcRequestBuilders
-                .post("/company")
-                .accept(MediaType.APPLICATION_JSON);
-        MvcResult result=mockMvc
-                .perform(request)
-                .andExpect(status().isCreated()).andReturn();
-
+        ObjectMapper mapper=new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE,false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson=ow.writeValueAsString(company);
+        mockMvc.perform(post("/company").contentType(APPLICATION_JSON_UTF8)
+                        .content(requestJson))
+                .andExpect(status().isCreated());
     }
 }

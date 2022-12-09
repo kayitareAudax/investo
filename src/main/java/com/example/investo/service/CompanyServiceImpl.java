@@ -37,6 +37,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public ResponseEntity<Company> saveCompany(Company company) {
         log.info("saving company");
+        companyRepo.save(company);
         return ResponseEntity.status(HttpStatus.CREATED).body(companyRepo.save(company));
     }
 
